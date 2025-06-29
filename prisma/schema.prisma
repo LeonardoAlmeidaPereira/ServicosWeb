@@ -1,0 +1,37 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Bloco de configuração do banco de dados
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// Bloco gerador do Prisma Client (O QUE FALTAVA)
+generator client {
+  provider = "prisma-client-js"
+}
+
+// --- SEUS MODELS ---
+
+model User {
+  id        String     @id @default(uuid())
+  name      String
+  email     String     @unique
+  password  String
+  role      String     @default("USER") // "USER" ou "ADMIN"
+  playlists Playlist[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model Playlist {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  songs       Json?    // Para simplificar, as músicas podem ser um array JSON
+  userId      String
+  user        User     @relation(fields: [userId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

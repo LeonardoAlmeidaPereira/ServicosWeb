@@ -8,7 +8,11 @@ const app = express();
 
 app.use(express.json());
 
-app.use('/', userRoutes);
+app.get('/', (req: Request, res: Response) => {
+  return res.status(200).json({ message: 'API is running!' });
+});
+
+app.use('/users', userRoutes);
 app.use('/playlists', playlistRoutes);
 
 app.use((err: Error, request: Request, response: Response, next: NextFunction) => {

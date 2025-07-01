@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express"; // Importe o NextFunction
 import { UserService } from "./user.service";
 import { UserRepository } from "./user.repository";
 
@@ -10,28 +10,40 @@ export class UserController {
         this.userService = new UserService(userRepository);
     }
 
-    // Convertido para Arrow Function
-    register = async (req: Request, res: Response) => {
-        const user = await this.userService.register(req.body);
-        return res.status(201).json(user);
+    register = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const user = await this.userService.register(req.body);
+            return res.status(201).json(user);
+        } catch (error) {
+            return next(error); // Passa o erro para o middleware
+        }
     }
 
-    // Convertido para Arrow Function
-    login = async (req: Request, res: Response) => {
-        const result = await this.userService.login(req.body);
-        return res.status(200).json(result);
+    login = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const result = await this.userService.login(req.body);
+            return res.status(200).json(result);
+        } catch (error) {
+            return next(error); // Passa o erro para o middleware
+        }
     }
 
-    // Convertido para Arrow Function
-    findAll = async (req: Request, res: Response) => {
-        const users = await this.userService.findAll();
-        return res.status(200).json(users);
+    findAll = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const users = await this.userService.findAll();
+            return res.status(200).json(users);
+        } catch (error) {
+            return next(error); // Passa o erro para o middleware
+        }
     }
 
-    // Convertido para Arrow Function
-    update = async (req: Request, res: Response) => {
-        const { id } = req.params;
-        const user = await this.userService.update(id, req.body);
-        return res.status(200).json(user);
+    update = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const { id } = req.params;
+            const user = await this.userService.update(id, req.body);
+            return res.status(200).json(user);
+        } catch (error) {
+            return next(error); // Passa o erro para o middleware
+        }
     }
 }

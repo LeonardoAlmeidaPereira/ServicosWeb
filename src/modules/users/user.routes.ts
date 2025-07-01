@@ -10,7 +10,7 @@ const userController = new UserController();
 
 userRoutes.post("/register", validate(createUserSchema), userController.register);
 userRoutes.post("/login", validate(loginUserSchema), userController.login);
-userRoutes.get("/users", authMiddleware, adminMiddleware, userController.findAll);
-userRoutes.put("/users/:id", authMiddleware, adminMiddleware, validate(updateUserSchema), userController.update);
+userRoutes.get("/", authMiddleware, adminMiddleware, userController.findAll);
+userRoutes.put("/:id", authMiddleware, adminMiddleware, validate(updateUserSchema), userController.update);
 
 export { userRoutes };

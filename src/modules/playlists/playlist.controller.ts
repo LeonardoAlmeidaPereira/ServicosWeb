@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express"; // Importe o NextFunction
 import { PlaylistService } from "./playlist.service";
 import { PlaylistRepository } from "./playlist.repository";
 
@@ -9,31 +9,52 @@ export class PlaylistController {
         const playlistRepository = new PlaylistRepository();
         this.playlistService = new PlaylistService(playlistRepository);
     }
-    async create(req: Request, res: Response) {
-        const playlist = await this.playlistService.create(req.body, req.user.id);
-        return res.status(201).json(playlist);
+
+    create = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const playlist = await this.playlistService.create(req.body, req.user.id);
+            return res.status(201).json(playlist);
+        } catch (error) {
+            return next(error);
+        }
     }
 
-    async findMyPlaylists(req: Request, res: Response) {
-        const playlists = await this.playlistService.findMyPlaylists(req.user.id);
-        return res.status(200).json(playlists);
+    findMyPlaylists = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const playlists = await this.playlistService.findMyPlaylists(req.user.id);
+            return res.status(200).json(playlists);
+        } catch (error) {
+            return next(error);
+        }
     }
 
-    async getById(req: Request, res: Response) {
-        const { id } = req.params;
-        const playlist = await this.playlistService.findById(id, req.user.id);
-        return res.status(200).json(playlist);
+    getById = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const { id } = req.params;
+            const playlist = await this.playlistService.findById(id, req.user.id);
+            return res.status(200).json(playlist);
+        } catch (error) {
+            return next(error);
+        }
     }
 
-    async update(req: Request, res: Response) {
-        const { id } = req.params;
-        const updatedPlaylist = await this.playlistService.update(id, req.user.id, req.body);
-        return res.status(200).json(updatedPlaylist);
+    update = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const { id } = req.params;
+            const updatedPlaylist = await this.playlistService.update(id, req.user.id, req.body);
+            return res.status(200).json(updatedPlaylist);
+        } catch (error) {
+            return next(error);
+        }
     }
 
-    async delete(req: Request, res: Response) {
-        const { id } = req.params;
-        await this.playlistService.delete(id, req.user.id);
-        return res.status(204).send();
+    delete = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const { id } = req.params;
+            await this.playlistService.delete(id, req.user.id);
+            return res.status(200).json({ message: "Playlist excluída com sucesso" });
+        } catch (error) {
+            return next(error);
+        }
     }
 }

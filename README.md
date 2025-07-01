@@ -6,26 +6,26 @@ API RESTful desenvolvida em Node.js para simular um serviço de streaming de mú
 
 ## Funcionalidades
 
--   **Autenticação de Usuários:** Sistema completo de registro e login com senhas criptografadas e tokens JWT.
--   **Controle de Acesso:** Perfis de `USER` e `ADMIN` com regras de autorização distintas.
--   **Gerenciamento de Usuários:** Operações de CRUD para usuários, restritas a administradores.
--   **Gerenciamento de Playlists:** Usuários autenticados podem criar, listar, atualizar e deletar suas próprias playlists.
+- **Autenticação de Usuários:** Sistema completo de registro e login com senhas criptografadas e tokens JWT.
+- **Controle de Acesso:** Perfis de `USER` e `ADMIN` com regras de autorização distintas.
+- **Gerenciamento de Usuários:** Operações de CRUD para usuários, restritas a administradores.
+- **Gerenciamento de Playlists:** Usuários autenticados podem criar, listar, atualizar e deletar suas próprias playlists.
 
 ## Tecnologias Utilizadas
 
--   **Backend:** Node.js, Express
--   **Linguagem:** TypeScript
--   **Banco de Dados:** SQLite com Prisma ORM
--   **Autenticação:** JSON Web Tokens (JWT)
--   **Validação:** Zod
--   **Testes de API:** Postman ou Insomnia (recomendado)
+- **Backend:** Node.js, Express
+- **Linguagem:** TypeScript
+- **Banco de Dados:** SQLite com Prisma ORM
+- **Autenticação:** JSON Web Tokens (JWT)
+- **Validação:** Zod
+- **Testes de API:** Thunder Client, Postman ou Insomnia
 
 ## Pré-requisitos
 
 Antes de começar, você vai precisar ter instalado em sua máquina:
--   [Node.js](httpss://nodejs.org/en/) (versão LTS recomendada)
--   [Git](httpss://git-scm.com/)
--   Um gerenciador de pacotes como [NPM](httpss://www.npmjs.com/) ou [Yarn](httpss://yarnpkg.com/) (já vem com o Node.js)
+- [Node.js](https://nodejs.org/en/) (versão LTS recomendada)
+- [Git](https://git-scm.com/)
+- Um gerenciador de pacotes como [NPM](https://www.npmjs.com/) ou [Yarn](https://yarnpkg.com/) (já vem com o Node.js)
 
 ## Como Rodar o Projeto
 
@@ -33,7 +33,7 @@ Siga os passos abaixo para executar a aplicação localmente:
 
 1.  **Clone o repositório:**
     ```bash
-    git clone git@github.com:LeonardoAlmeidaPereira/ServicosWeb.git
+    git clone [https://github.com/LeonardoAlmeidaPereira/ServicosWeb.git](https://github.com/LeonardoAlmeidaPereira/ServicosWeb.git)
     cd ServicosWeb
     ```
 
@@ -62,14 +62,14 @@ Siga os passos abaixo para executar a aplicação localmente:
     ```bash
     npm run dev
     ```
-    O servidor estará rodando em `http://localhost:3333`.
+    O servidor estará rodando em `http://localhost:3000`.
 
 ## Configurando o Usuário Administrador
 
 Por questões de segurança, não existe uma rota pública para criar usuários com perfil de `ADMIN`. O processo é manual e deve ser feito da seguinte forma:
 
 1.  **Registre um usuário comum:**
-    Use um cliente de API (como o Postman) para fazer uma requisição `POST` para a rota `http://localhost:3333/register` com um `name`, `email` e `password`.
+    Use um cliente de API (como o Thunder Client) para fazer uma requisição `POST` para a rota `http://localhost:3000/users/register` com `name`, `email` e `password`.
 
 2.  **Abra o Prisma Studio:**
     O Prisma Studio é uma interface visual para gerenciar seu banco de dados. Rode o seguinte comando no terminal:
@@ -79,9 +79,9 @@ Por questões de segurança, não existe uma rota pública para criar usuários 
     Isso abrirá uma página no seu navegador.
 
 3.  **Promova o usuário a Administrador:**
-    -   No Prisma Studio, clique no modelo `User`.
-    -   Encontre o usuário que você acabou de registrar pelo e-mail.
-    -   Clique na célula da coluna `role` desse usuário, altere o valor de `"USER"` para `"ADMIN"` e salve a alteração.
+    - No Prisma Studio, clique no modelo `User`.
+    - Encontre o usuário que você acabou de registrar pelo e-mail.
+    - Clique na célula da coluna `role` desse usuário, altere o valor de `"USER"` para `"ADMIN"` e salve a alteração clicando em "Save 1 change".
 
 Pronto! Agora este usuário terá permissões de administrador para acessar as rotas protegidas.
 
@@ -89,24 +89,24 @@ Pronto! Agora este usuário terá permissões de administrador para acessar as r
 
 ### Autenticação
 
-| Método | Rota      | Descrição                           | Proteção |
-| :----- | :-------- | :------------------------------------ | :------- |
-| `POST` | `/register` | Registra um novo usuário.             | Nenhuma  |
-| `POST` | `/login`    | Autentica um usuário e retorna um JWT. | Nenhuma  |
+| Método | Rota               | Descrição                              | Proteção |
+| :----- | :----------------- | :------------------------------------- | :------- |
+| `POST` | `/users/register`  | Registra um novo usuário.              | Nenhuma  |
+| `POST` | `/users/login`     | Autentica um usuário e retorna um JWT. | Nenhuma  |
 
-### Usuários (Admin)
+### Usuários (Requer `ADMIN`)
 
-| Método | Rota        | Descrição                  | Proteção    |
-| :----- | :---------- | :------------------------- | :---------- |
-| `GET`  | `/users`    | Lista todos os usuários.   | `ADMIN`     |
-| `PUT`  | `/users/:id`  | Atualiza dados de um usuário. | `ADMIN`     |
+| Método | Rota          | Descrição                     | Proteção |
+| :----- | :------------ | :---------------------------- | :------- |
+| `GET`  | `/users`      | Lista todos os usuários.        | `ADMIN`  |
+| `PUT`  | `/users/:id`  | Atualiza dados de um usuário.   | `ADMIN`  |
 
-### Playlists (Usuário Autenticado)
+### Playlists (Requer Autenticação)
 
-| Método   | Rota         | Descrição                                         | Proteção             |
-| :------- | :----------- | :------------------------------------------------ | :------------------- |
-| `POST`   | `/playlists`   | Cria uma nova playlist para o usuário logado.     | `Usuário Autenticado` |
-| `GET`    | `/playlists`   | Lista as playlists do usuário logado.             | `Usuário Autenticado` |
-| `GET`    | `/playlists/:id` | Obtém uma playlist específica do usuário logado. | `Usuário Autenticado` |
-| `PUT`    | `/playlists/:id` | Atualiza uma playlist do usuário logado.         | `Usuário Autenticado` |
-| `DELETE` | `/playlists/:id` | Deleta uma playlist do usuário logado.           | `Usuário Autenticado` |
+| Método   | Rota             | Descrição                                         | Proteção              |
+| :------- | :--------------- | :------------------------------------------------ | :-------------------- |
+| `POST`   | `/playlists`       | Cria uma nova playlist para o usuário logado.     | `Usuário Autenticado` |
+| `GET`    | `/playlists`       | Lista as playlists do usuário logado.             | `Usuário Autenticado` |
+| `GET`    | `/playlists/:id`   | Obtém uma playlist específica do usuário logado.  | `Usuário Autenticado` |
+| `PUT`    | `/playlists/:id`   | Atualiza uma playlist do usuário logado.          | `Usuário Autenticado` |
+| `DELETE` | `/playlists/:id`   | Deleta uma playlist do usuário logado.            | `Usuário Autenticado` |

@@ -35,17 +35,22 @@ export class UserService {
             throw new AppError("Email ou senha inválidos", 401);
         }
 
-        const token = jwt.sign({ id: user.id, role: user.role },
-            process.env.JWT_SECRET as string,
-            { expiresIn: "1d" }
-        );
-
         const { password, ...userWithoutPassword } = user;
 
-        return ({
-            user: userWithoutPassword,
-            token
-        })
+        return userWithoutPassword;
+    }
+
+    async findById(id: string) {
+        if (!id) {
+            throw new AppError('Usuário nao fornecudo', 400);
+        }
+        const user = await this.userRepository.findById(id);
+
+        if (!user) {
+            throw new AppError('Usuário nao encontrado', 404);
+        }
+        const { password, ...userWithoutPassword } = user;
+        return userWithoutPassword;
     }
 
     async findAll() {

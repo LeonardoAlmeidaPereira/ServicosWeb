@@ -1,4 +1,5 @@
 import express, { Request, Response, NextFunction } from 'express';
+import session from 'express-session';
 import { Liquid } from 'liquidjs';
 import path from 'path';
 import 'dotenv/config';
@@ -9,6 +10,14 @@ import { AppError } from './shared/errors/AppError';
 const app = express();
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.use(session({
+    secret: process.env.JWT_SECRET || 'Password100%secreto',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false } 
+}));
 
 const engine = new Liquid({
     root: path.join(__dirname, '../views'),

@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minhas Playlists</title>
+  </head>
+  <body>
+    <h2>Olá, {{ user.name }}!</h2>
+
+    {% if playlists.size > 0 %}
+      <p>Essas são suas playlists:</p>
+      <ul>
+        {% for playlist in playlists %}
+          <li>
+            <strong>{{ playlist.name }}</strong>
+            <p>{{ playlist.description }}</p>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>Voce ainda nao criou nenhuma playlist. <a href="/playlists/create">Criar Playlist</a>.</p>
+    {% endif %}
+
+    <a href="/users/logout"> Logout </a>
+
+  </body>
+</html>

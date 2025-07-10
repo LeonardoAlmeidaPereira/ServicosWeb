@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8">
+    <title>Detalhes da Playlist</title>
+  </head>
+  <body>
+    <h2>{{ playlist.name }}</h2>
+    <p>{{ playlist.description }}</p>
+    <p><a href="/playlists/{{ playlist.id }}/edit">Editar</a></p>
+    <form
+      action="/playlists/{{ playlist.id }}/delete"
+      method="post"
+      onsubmit="return confirm('Tem certeza que deseja apagar esta playlist?');"
+    >
+      <button type="submit">Apagar</button>
+    </form>
+  </body>
+</html>

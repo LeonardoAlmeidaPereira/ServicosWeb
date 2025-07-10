@@ -13,8 +13,12 @@ const playlistController = new PlaylistController();
 
 playlistRoutes.post("/", validate(createPlaylistSchema), playlistController.create);
 playlistRoutes.get("/", playlistController.findMyPlaylists);
+playlistRoutes.get("/create", authPage, playlistController.renderCreatePage);
 playlistRoutes.get("/:id", validate(playlistIdParamSchema), playlistController.getById);
+playlistRoutes.post("/:id", validate(updatePlaylistSchema), playlistController.update);
+playlistRoutes.get("/:id/edit", authPage, validate(playlistIdParamSchema), playlistController.renderEditPage);
 playlistRoutes.put("/:id", validate(updatePlaylistSchema), playlistController.update);
 playlistRoutes.delete("/:id", validate(playlistIdParamSchema), playlistController.delete);
+playlistRoutes.post("/:id/delete",authPage, validate(playlistIdParamSchema), playlistController.delete);
 
 export { playlistRoutes };

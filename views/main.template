@@ -10,6 +10,7 @@
     <p>Esta é a página principal do site.</p>
     <br>
     <a href="/playlists"> Playlists </a>
+    <a href="/playlists/create"> Criar Playlist </a>
     <a href="/users/logout"> Logout </a>
 </body>
 </html>

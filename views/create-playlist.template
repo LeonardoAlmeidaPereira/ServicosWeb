@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criar Playlist</title>
+</head>
+<body>
+    <h2>Criar uma Nova Playlist</h2>
+    <form action="/playlists" method="post">
+        <label for="name">Nome:</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="description">Descrição:</label>
+        <textarea id="description" name="description"></textarea>
+
+        <button type="submit">Criar Playlist</button>
+    </form>
+</body>
+</html>
+

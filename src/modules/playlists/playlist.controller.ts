@@ -16,13 +16,27 @@ export class PlaylistController {
         this.userService = new UserService(userRepository);
     }
 
+    renderCreatePage = (req: Request, res: Response) => {
+        return res.render("create-playlist");
+    }
+
     create = async (req: Request, res: Response, next: NextFunction) => {
         const userId = req.session.userId!; 
+        const playlistData = req.body;
         try {
-            const playlist = await this.playlistService.create(req.body, userId);
-            return res.status(201).json(playlist);
+            await this.playlistService.create(playlistData, userId);
+            return res.redirect("/playlists");
         } catch (error) {
-            return next(error);
+            return res.render("create-playlist", { error });
+        }
+    }
+
+    register = async (req: Request, res: Response) => {
+        try {
+            await this.userService.register(req.body);
+            return res.redirect("/users/login");
+        } catch (error) {
+            return res.render("register", { error });
         }
     }
 
@@ -42,7 +56,18 @@ export class PlaylistController {
         try {
             const { id } = req.params;
             const playlist = await this.playlistService.findById(id, userId);
-            return res.status(200).json(playlist);
+            return res.render('playlist-details', { playlist: playlist });
+        } catch (error) {
+            return next(error);
+        }
+    }
+
+    renderEditPage = async (req: Request, res: Response, next: NextFunction) => {
+        const userId = req.session.userId!; 
+        try {
+            const { id } = req.params;
+            const playlist = await this.playlistService.findById(id, userId);
+            return res.render('edit-playlist', { playlist: playlist });
         } catch (error) {
             return next(error);
         }
@@ -53,9 +78,9 @@ export class PlaylistController {
         try {
             const { id } = req.params;
             const updatedPlaylist = await this.playlistService.update(id, userId, req.body);
-            return res.status(200).json(updatedPlaylist);
+            return res.redirect(`/playlists/${id}`);
         } catch (error) {
-            return next(error);
+            return res.render('edit-playlist', { playlist: updatedPlaylist });
         }
     }
 
@@ -64,7 +89,7 @@ export class PlaylistController {
         try {
             const { id } = req.params;
             await this.playlistService.delete(id, userId);
-            return res.status(200).json({ message: "Playlist excluída com sucesso" });
+            return res.redirect('/playlists');
         } catch (error) {
             return next(error);
         }

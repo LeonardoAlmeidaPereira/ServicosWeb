@@ -5,7 +5,7 @@
     <title>Teste Liquid</title>
 </head>
 <body>
-    <h1>O Liquid foi configurado com sucesso!</h1>
+    <h1>O Liquid  foi configurado com sucesso!</h1>
     <p>Esta página foi renderizada pelo servidor Express.</p>
 </body>
 </html>

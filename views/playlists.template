@@ -13,7 +13,7 @@
       <ul>
         {% for playlist in playlists %}
           <li>
-            <strong>{{ playlist.name }}</strong>
+            <a href="/playlists/{{ playlist.id }}">{{ playlist.name }}</a>
             <p>{{ playlist.description }}</p>
           </li>
         {% endfor %}

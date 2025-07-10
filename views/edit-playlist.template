@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar detalhes da Playlist</title>
+</head>
+<body>
+    <h2>Editar detalhes da Playlist</h2>
+    <form action="/playlists/{{ playlist.id }}" method="post">
+        <label for="name">Nome:</label>
+        <input type="text" id="name" name="name" value="{{ playlist.name }}" required>
+
+        <label for="description">Descrição:</label>
+        <textarea id="description" name="description">{{ playlist.description }}</textarea>
+
+        <button type="submit">Salvar Alterações</button>
+    </form>
+</body>
+</html>
